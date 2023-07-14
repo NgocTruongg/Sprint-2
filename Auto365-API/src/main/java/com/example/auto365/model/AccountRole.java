@@ -1,7 +1,4 @@
 package com.example.auto365.model;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 
 @Entity
@@ -11,25 +8,24 @@ public class AccountRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Column(name = "account_role_id")
+    @Column(name = "id")
     private Integer accountRoleId;
 
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "account_id", nullable = false)
-    private Account account;
+    private AccountUser accountUser;
 
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
-    private Role role;
+    private Roles roles;
 
     public AccountRole() {
     }
 
-    public AccountRole(Integer accountRoleId, Account account, Role role) {
+    public AccountRole(Integer accountRoleId, AccountUser accountUser, Roles roles) {
         this.accountRoleId = accountRoleId;
-        this.account = account;
-        this.role = role;
+        this.accountUser = accountUser;
+        this.roles = roles;
     }
 
     public Integer getAccountRoleId() {
@@ -40,19 +36,19 @@ public class AccountRole {
         this.accountRoleId = accountRoleId;
     }
 
-    public Account getAccount() {
-        return account;
+    public AccountUser getAccountUser() {
+        return accountUser;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setAccountUser(AccountUser accountUser) {
+        this.accountUser = accountUser;
     }
 
-    public Role getRole() {
-        return role;
+    public Roles getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoles(Roles roles) {
+        this.roles = roles;
     }
 }
