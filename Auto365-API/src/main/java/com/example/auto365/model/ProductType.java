@@ -13,6 +13,7 @@ public class ProductType {
 
     private String productTypeName;
 
+
     public ProductType() {
     }
 

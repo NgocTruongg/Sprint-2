@@ -8,7 +8,6 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "product_id")
     private Integer productId;
 
@@ -17,28 +16,39 @@ public class Product {
     private String image;
 
     private String status;
+    private String screenResolution; //độ phân giải
+    private String screenSize; // size màn hình
+    private String ram;
+    private String internalMemory; //bộ nhớ trong
 
-    private Double price;
+    private Integer quantity;
+
+    private String price;
+    @Column(columnDefinition = "bit(1) default 0")
+    private Boolean isDelete;
+
 
     @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
-
-    @ManyToOne
-    @JoinColumn(name = "product_type_id")
+    @JoinColumn(name="product_type_id", referencedColumnName = "product_type_id")
     private ProductType productType;
 
     public Product() {
     }
 
     public Product(Integer productId, String productName, String image, String status,
-                   Double price, Employee employee, ProductType productType) {
+                   String screenResolution, String screenSize, String ram, String internalMemory,
+                   Integer quantity, String price, Boolean isDelete, ProductType productType) {
         this.productId = productId;
         this.productName = productName;
         this.image = image;
         this.status = status;
+        this.screenResolution = screenResolution;
+        this.screenSize = screenSize;
+        this.ram = ram;
+        this.internalMemory = internalMemory;
+        this.quantity = quantity;
         this.price = price;
-        this.employee = employee;
+        this.isDelete = isDelete;
         this.productType = productType;
     }
 
@@ -74,20 +84,60 @@ public class Product {
         this.status = status;
     }
 
-    public Double getPrice() {
+    public String getScreenResolution() {
+        return screenResolution;
+    }
+
+    public void setScreenResolution(String screenResolution) {
+        this.screenResolution = screenResolution;
+    }
+
+    public String getScreenSize() {
+        return screenSize;
+    }
+
+    public void setScreenSize(String screenSize) {
+        this.screenSize = screenSize;
+    }
+
+    public String getRam() {
+        return ram;
+    }
+
+    public void setRam(String ram) {
+        this.ram = ram;
+    }
+
+    public String getInternalMemory() {
+        return internalMemory;
+    }
+
+    public void setInternalMemory(String internalMemory) {
+        this.internalMemory = internalMemory;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
-    public Employee getEmployee() {
-        return employee;
+    public Boolean getDelete() {
+        return isDelete;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
     }
 
     public ProductType getProductType() {

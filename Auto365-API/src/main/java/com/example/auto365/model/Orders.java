@@ -17,29 +17,26 @@ public class Orders {
 
     private LocalDate ordersDate;
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
+    private Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
     private Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
 
     public Orders() {
     }
 
     public Orders(Integer ordersId, String quantity, LocalDate ordersDate,
-                  Employee employee, Customer customer, Product product) {
+                  Product product, Customer customer) {
         this.ordersId = ordersId;
         this.quantity = quantity;
         this.ordersDate = ordersDate;
-        this.employee = employee;
-        this.customer = customer;
         this.product = product;
+        this.customer = customer;
     }
 
     public Integer getOrdersId() {
@@ -66,12 +63,12 @@ public class Orders {
         this.ordersDate = ordersDate;
     }
 
-    public Employee getEmployee() {
-        return employee;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Customer getCustomer() {
@@ -80,13 +77,5 @@ public class Orders {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 }

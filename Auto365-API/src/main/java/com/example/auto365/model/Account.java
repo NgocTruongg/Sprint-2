@@ -1,51 +1,61 @@
 package com.example.auto365.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "account_user")
-public class AccountUser {
+public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "account_id")
+    private Integer accountId;
 
-    @Column(name ="id")
-    private Integer accountUserId;
-
-    @Column(name ="account_user_name")
-    private String accountUserName;
+    @Column(name ="account_name")
+    private String accountName;
 
     @Column(name ="account_password")
     private String accountPassword;
     @Column(name ="reset_password")
     private String resetPassword;
 
+    @Column(columnDefinition = "bit(1) default 0")
+    private Boolean isDelete;
 
-    public AccountUser() {
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "account_id"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id"))
+    Set<Roles> roles = new HashSet<>();
+
+    public Account() {
     }
 
-    public AccountUser(Integer accountUserId, String accountUserName, String accountPassword, String resetPassword) {
-        this.accountUserId = accountUserId;
-        this.accountUserName = accountUserName;
+    public Account(Integer accountId, String accountName,
+                   String accountPassword, String resetPassword,
+                   Boolean isDelete, Set<Roles> roles) {
+        this.accountId = accountId;
+        this.accountName = accountName;
         this.accountPassword = accountPassword;
         this.resetPassword = resetPassword;
+        this.isDelete = isDelete;
+        this.roles = roles;
     }
 
-    public Integer getAccountUserId() {
-        return accountUserId;
+    public Integer getAccountId() {
+        return accountId;
     }
 
-    public void setAccountUserId(Integer accountUserId) {
-        this.accountUserId = accountUserId;
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 
-    public String getAccountUserName() {
-        return accountUserName;
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setAccountUserName(String accountUserName) {
-        this.accountUserName = accountUserName;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
     public String getAccountPassword() {
@@ -62,5 +72,21 @@ public class AccountUser {
 
     public void setResetPassword(String resetPassword) {
         this.resetPassword = resetPassword;
+    }
+
+    public Boolean getDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
+    }
+
+    public Set<Roles> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Roles> roles) {
+        this.roles = roles;
     }
 }

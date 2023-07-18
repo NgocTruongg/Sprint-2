@@ -9,7 +9,6 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "employee_id")
     private Integer employeeId;
 
@@ -24,17 +23,24 @@ public class Employee {
     private Double gender;
 
     private LocalDate dayOfBirth;
+    @Column(columnDefinition = "bit(1) default 0")
+    private Boolean isDelete;
+
+
+
+    @OneToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "account_id")
+    private Account account;
 
     @ManyToOne
-    @JoinColumn(name = "position_id")
+    @JoinColumn(name = "position_id",referencedColumnName = "position_id")
     private Position position;
 
     public Employee() {
     }
 
-    public Employee(Integer employeeId, String employeeName, String numberPhone,
-                    String address, String email, Double gender, LocalDate dayOfBirth,
-                    Position position) {
+    public Employee(Integer employeeId, String employeeName, String numberPhone, String address, String email, Double gender,
+                    LocalDate dayOfBirth, Boolean isDelete, Account account, Position position) {
         this.employeeId = employeeId;
         this.employeeName = employeeName;
         this.numberPhone = numberPhone;
@@ -42,6 +48,8 @@ public class Employee {
         this.email = email;
         this.gender = gender;
         this.dayOfBirth = dayOfBirth;
+        this.isDelete = isDelete;
+        this.account = account;
         this.position = position;
     }
 
@@ -99,6 +107,22 @@ public class Employee {
 
     public void setDayOfBirth(LocalDate dayOfBirth) {
         this.dayOfBirth = dayOfBirth;
+    }
+
+    public Boolean getDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public Position getPosition() {
