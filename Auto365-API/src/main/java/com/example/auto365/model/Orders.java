@@ -13,10 +13,7 @@ public class Orders {
     @Column(name = "orders_id")
     private Integer ordersId;
 
-    private String quantity;
-
-    private LocalDate ordersDate;
-
+    private String quantityOrders;
 
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")
@@ -26,17 +23,21 @@ public class Orders {
     @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
     private Customer customer;
 
+    @ManyToOne
+    @JoinColumn(name = "id_bill", referencedColumnName = "id_bill")
+    private Bill bill;
+
 
     public Orders() {
     }
 
-    public Orders(Integer ordersId, String quantity, LocalDate ordersDate,
-                  Product product, Customer customer) {
+    public Orders(Integer ordersId, String quantityOrders,
+                  Product product, Customer customer, Bill bill) {
         this.ordersId = ordersId;
-        this.quantity = quantity;
-        this.ordersDate = ordersDate;
+        this.quantityOrders = quantityOrders;
         this.product = product;
         this.customer = customer;
+        this.bill = bill;
     }
 
     public Integer getOrdersId() {
@@ -47,20 +48,12 @@ public class Orders {
         this.ordersId = ordersId;
     }
 
-    public String getQuantity() {
-        return quantity;
+    public String getQuantityOrders() {
+        return quantityOrders;
     }
 
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
-    }
-
-    public LocalDate getOrdersDate() {
-        return ordersDate;
-    }
-
-    public void setOrdersDate(LocalDate ordersDate) {
-        this.ordersDate = ordersDate;
+    public void setQuantityOrders(String quantityOrders) {
+        this.quantityOrders = quantityOrders;
     }
 
     public Product getProduct() {
@@ -77,5 +70,13 @@ public class Orders {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Bill getBill() {
+        return bill;
+    }
+
+    public void setBill(Bill bill) {
+        this.bill = bill;
     }
 }

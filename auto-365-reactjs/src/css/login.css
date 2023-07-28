@@ -34,17 +34,19 @@
   align-items: center; }
 
 #login-auto .inner {
-  background: #fff;
-  max-width: 850px;
-  margin: auto;
-  display: flex; }
-#login-auto .inner .image-holder {
-  width: 50%; }
+  width: 50%;
+  background:none;
+  margin-left: 25%;
+  margin-top: 22px;
+  border: black;
+
+}
+
 #login-auto .inner form {
   width: 50%;
-  padding-top: 115px;
-  padding-left: 45px;
-  padding-right: 45px; }
+  margin: auto;
+  text-align: center;
+}
 #login-auto .inner h3 {
   text-transform: uppercase;
   font-size: 25px;
@@ -156,8 +158,6 @@
     margin-top: 60px; } }
 
 .wrapper {
-  min-height: 100vh;
-  background-size: cover;
-  background-repeat: no-repeat;
   display: flex;
-  align-items: center; }
+  align-items: center;
+}

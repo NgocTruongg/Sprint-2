@@ -14,32 +14,43 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/product")
+@RequestMapping("/api/public/product")
 public class ProductController {
 
     @Autowired
     private IProductService productService;
 
-    @GetMapping("")
-    public ResponseEntity<Page<Product>> findProductByName (
-            @RequestParam(required = false, defaultValue = "") String name,
-            @RequestParam(name = "productTypeId", defaultValue = "0") Integer productTypeId,
-            @PageableDefault(size = 8) Pageable pageable ) {
-        Page<Product> products = productService.findAllProduct(name, productTypeId,pageable);
-        if (products.isEmpty()) {
-            return new ResponseEntity<>(products, HttpStatus.NOT_FOUND);
+//    @GetMapping("")
+//    public ResponseEntity<Page<Product>> findProductByName (
+//            @RequestParam(required = false, defaultValue = "") String name,
+//            @RequestParam(name = "productTypeId", defaultValue = "0") Integer productTypeId,
+//            @PageableDefault(size = 8) Pageable pageable ) {
+//        Page<Product> products = productService.findAllProduct(name, productTypeId,pageable);
+//        if (products.isEmpty()) {
+//            return new ResponseEntity<>(products, HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<>(products, HttpStatus.OK);
+//    }
+
+    // lây ra sản phẩm mới nhất được thêm vào
+    @GetMapping("/newProduct")
+    public ResponseEntity<List<Product>> getNewProduct() {
+        List<Product> newProductList = productService.findNewProduct();
+        if (newProductList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(products, HttpStatus.OK);
+        return new ResponseEntity<>(newProductList, HttpStatus.OK);
     }
 
-
     @GetMapping("/list")
-    public ResponseEntity<Page<Product>> getAllProduct(@PageableDefault(size = 5) Pageable pageable,
+    public ResponseEntity<Page<Product>> getAllProduct(@PageableDefault(size = 8) Pageable pageable,
                                                          @RequestParam(value = "page", defaultValue = "0")
                                                          int page) {
-        pageable = PageRequest.of(page, 5);
+        pageable = PageRequest.of(page, 8);
         Page<Product> product = productService.findAll(pageable);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
@@ -62,4 +73,10 @@ public class ProductController {
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
+
+    @GetMapping("/productByType/{type}")
+    public ResponseEntity<List<Product>> displayProductByType(@PathVariable Integer type) {
+        List<Product> products = productService.getProductByTypeProduct(type);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 }

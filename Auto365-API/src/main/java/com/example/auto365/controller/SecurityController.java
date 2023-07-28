@@ -1,5 +1,4 @@
 package com.example.auto365.controller;
-
 import com.example.auto365.security.jwt.JwtProvider;
 import com.example.auto365.security.request.SignInForm;
 import com.example.auto365.security.response.ErrorMessage;
@@ -14,7 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;

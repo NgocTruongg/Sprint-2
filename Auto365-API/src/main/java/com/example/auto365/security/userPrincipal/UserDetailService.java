@@ -9,17 +9,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-/**
- * @author ChinhLV
- * @Param username
- * @return UserDetails loadUserByUsername(String username)
- * Phương thức sử dụng để build đối tượng UserDetails dựa trên đối tượng AccountUser được lấy ra lên từ db
- * Kết quả trả về là đối tượng UserDetails.
- */
+
 @Service
 public class UserDetailService implements UserDetailsService {
     @Autowired
     private IAccountService iAccountService;
+
+    /**
+     * @Param username
+     * @return UserDetails loadUserByUsername(String username)
+     * Phương thức sử dụng để build đối tượng UserDetails dựa trên đối tượng Account được lấy ra lên từ db
+     * Kết quả trả về là đối tượng UserDetails.
+     */
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) {

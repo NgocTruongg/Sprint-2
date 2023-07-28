@@ -15,6 +15,7 @@ public class Product {
 
     private String image;
 
+    @Column(name = "status",columnDefinition = "mediumtext")
     private String status;
     private String screenResolution; //độ phân giải
     private String screenSize; // size màn hình

@@ -1,5 +1,6 @@
-import {Product} from "./Product";
+import {Product} from "../product/Product";
 import React, {useEffect} from "react";
+import {ProductNews} from "../product/ProductNews";
 
 
 export function HomePage() {
@@ -10,8 +11,8 @@ export function HomePage() {
 
     return (
         <>
+            <section id="productNews"><ProductNews/></section>
             <section id="product"><Product/></section>
-
         </>
     )
 }

@@ -1,13 +1,18 @@
-import React, {useEffect, useState} from "react";
-import {findAll, findAllProductType, findByName} from "../service/product/productService";
+import React, {useContext, useEffect, useState} from "react";
+import {findAll, findAllProductType} from "../../service/product/productService";
 import ReactPaginate from "react-paginate";
-import "../css/content.css"
+import "../../css/product.css"
 import {Link} from "react-router-dom";
+import {addCart} from "../../service/cart/CartService";
+import Swal from "sweetalert2";
+import {ValueIconCartContext} from "../ValueIconCartContext";
 
 
 export function Product() {
+    const token = localStorage.getItem("TOKEN");
+    const username = localStorage.getItem("USERNAME");
     const [products, setProducts] = useState([]);
-    const [typeProducts, setTypeProducts] = useState([]);
+    const {iconQuantity, setIconQuantity} = useContext(ValueIconCartContext);
     const [request, setRequest] = useState({
         page: 0,
         name: "",
@@ -15,14 +20,9 @@ export function Product() {
     const [pageCount, setPageCount] = useState(0);
 
 
-
     const handlePageOnclick = (event) => {
         setRequest((prev) => ({...prev, page: event.selected}))
     }
-
-    const handleNameOnchange = (event) => {
-        setRequest((prev) => ({...prev, productName: event.target.value}))
-    };
 
     const handleTypeProductOnchange = (event) => {
         setRequest((prev) => ({...prev, productTypeId: +event.target.value}))
@@ -30,51 +30,44 @@ export function Product() {
 
     useEffect(() => {
         (async () => {
-            const productList = await findByName(request);
+            const productList = await findAll(request);
             setPageCount(productList.totalPages);
             setProducts(productList.content);
         })()
     }, [request]);
 
-    useEffect(() => {
-        (async () => {
-            const typeProductList = await findAllProductType();
-            setTypeProducts(typeProductList);
-        })()
-    }, [])
+
+    const [quantity, setQuantity] = useState(1);
 
 
     useEffect(() => {
         document.title = "Sản phẩm";
     }, []);
-
+    const AddCart = async (id) => {
+        const cart = {
+            quantity: 1,
+            status: true,
+            product: ""
+        }
+        try {
+            await addCart({...cart, quantity: quantity , product: id}, token);
+            setIconQuantity(iconQuantity + 1)
+            Swal.fire({
+                title: 'Thông báo',
+                text: 'Thêm thành công sản phẩm vào giỏ hàng!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
     return (
         <>
-            {/*<div className="row">*/}
-            {/*    <div className="col-7"></div>*/}
-            {/*    <div className="col-5 search-flex container-fluid">*/}
-            {/*        <div className="row">*/}
-            {/*            <div className="col-6">*/}
-            {/*                <input onChange={handleNameOnchange} className="form-control input-search"*/}
-            {/*                       placeholder="Tìm kiếm theo tên......"*/}
-            {/*                       type="text"/>*/}
-            {/*            </div>*/}
-            {/*<div className="col-6">*/}
-            {/*    <select onChange={handleTypeProductOnchange} className="form-control select-option">*/}
-            {/*        <option className="text-option" value="0">-- Loại sản phẩm --</option>*/}
-            {/*        {typeProducts && typeProducts.map((typeProduct) => (*/}
-            {/*            <option className="text-option" key={typeProduct.productTypeId}*/}
-            {/*                    value={typeProduct.productTypeId}>{typeProduct.productTypeName}</option>*/}
-            {/*        ))}*/}
-            {/*    </select>*/}
-            {/*</div>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
             <div className="container-fluid pt-5 pb-3">
                 <h2 className="section-title position-relative text-uppercase mx-xl-5 mb-4"><span
-                    className="bg-secondary pr-3">Featured Products</span>
+                    className="title-product">Sản Phẩm</span>
                 </h2>
                 <div className="row px-xl-5">
                     {products.length === 0 ? (
@@ -90,18 +83,18 @@ export function Product() {
                                 <div className="col-lg-3 col-md-4 col-sm-6 pb-1" key={index}>
                                     <div className="product-item bg-light mb-4">
                                         <div className="product-img position-relative overflow-hidden">
-                                            <Link to={`/detail/${product.productId}`} className="card-text ">
+                                            <Link to={`/${product.productId}`} className="card-text ">
                                                 <img className="img-fluid w-100" src={product.image} alt=""/>
                                             </Link>
                                             <div className="product-action">
-                                                <Link to="/cart" className="btn btn-outline-dark btn-square">
-                                                    <i className="bi bi-cart3"/>
+                                                <Link className="btn btn-warning mr-2">
+                                                    <i className="bi bi-cart3" onClick={() => AddCart(product?.productId)}/>
                                                 </Link>
                                             </div>
                                         </div>
-                                        <div style={{textAlign: "center"}}>
+                                        <div style={{textAlign: "center", textDecoration: "none"}}>
                                             <div>
-                                                <Link to={`/detail/${product.productId}`} className="card-text ">
+                                                <Link to={`/detail/${product.productId}`} className="title-link">
                                                     {product.productName.length > 15
                                                         ? product.productName.slice(0, 15) + "..."
                                                         : product.productName}
@@ -109,10 +102,7 @@ export function Product() {
                                             </div>
                                             <div className="d-flex align-items-center justify-content-center mt-2">
                                                 <p className="card-price">
-                                                    {product.price.toLocaleString("vi-VN", {
-                                                    style: "currency",
-                                                    currency: "VND",
-                                                })} VND
+                                                    <span style={{color: "red"}}>{new Intl.NumberFormat().format(product.price)} VND</span>
                                                 </p>
                                             </div>
                                             <div className="d-flex align-items-center justify-content-center mt-2">

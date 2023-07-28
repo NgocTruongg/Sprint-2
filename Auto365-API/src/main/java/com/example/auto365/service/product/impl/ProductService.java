@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class ProductService implements IProductService {
@@ -19,14 +21,14 @@ public class ProductService implements IProductService {
     private IProductRepository productRepository;
 
 
-    @Override
-    public Page<Product> findAllProduct( String name, Integer productTypeId,Pageable pageable) {
-        return productRepository.findProductByProductNameAndAndProductTypeContaining(name, productTypeId, pageable);
-    }
+//    @Override
+//    public Page<Product> findAllProduct( String name, Integer productTypeId,Pageable pageable) {
+//        return productRepository.findProductByProductNameAndAndProductTypeContaining(name, productTypeId, pageable);
+//    }
 
     @Override
     public Page<Product> findAll(Pageable pageable) {
-        return findAll(pageable);
+        return productRepository.findAll(pageable);
     }
 
     @Override
@@ -44,7 +46,17 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product findById(Integer id) {
-        return productRepository.findByProductId(id);
+    public Product findById(int id) {
+        return productRepository.findProductByProductId(id);
+    }
+
+    @Override
+    public List<Product> findNewProduct() {
+        return productRepository.findNewProduct();
+    }
+
+    @Override
+    public List<Product> getProductByTypeProduct(Integer type) {
+        return productRepository.getProductByType(type);
     }
 }

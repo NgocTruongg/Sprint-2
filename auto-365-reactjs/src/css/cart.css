@@ -53,16 +53,16 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block;
 }
 
-body {
-  margin: 0;
-  font-family: "Roboto", sans-serif;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #6C757D;
-  text-align: left;
-  background-color: #F5F5F5;
-}
+/*body {*/
+/*  margin: 0;*/
+/*  font-family: "Roboto", sans-serif;*/
+/*  font-size: 1rem;*/
+/*  font-weight: 400;*/
+/*  line-height: 1.5;*/
+/*  color: #6C757D;*/
+/*  text-align: left;*/
+/*  background-color: red;*/
+/*}*/
 
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important;
@@ -4407,10 +4407,6 @@ input[type="button"].btn-block {
 
 .card-subtitle {
   margin-top: -0.375rem;
-  margin-bottom: 0;
-}
-
-.card-text:last-child {
   margin-bottom: 0;
 }
 
@@ -9631,20 +9627,10 @@ a.text-dark:hover, a.text-dark:focus {
   transition: .5s;
 }
 
-.product-action a.btn {
-  position: relative;
-  margin: 0 3px;
-  margin-top: 100px;
-  opacity: 0;
-}
-
 .product-item:hover {
   box-shadow: 0 0 30px #DDDDDD;
 }
 
-.product-item:hover .product-action {
-  background: rgba(255, 255, 255, 0.7);
-}
 
 .product-item:hover .product-action a.btn:first-child {
   opacity: 1;
@@ -9709,4 +9695,3 @@ a.text-dark:hover, a.text-dark:focus {
   100% {
     transform: translateY(-15px);
   }
-}

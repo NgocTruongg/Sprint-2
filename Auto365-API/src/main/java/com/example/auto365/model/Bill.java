@@ -13,19 +13,15 @@ public class Bill {
 
     private String invoiceDate;
 
-    private String priceBill;
-    @OneToOne
-    @JoinColumn(name = "orders_id", referencedColumnName = "orders_id")
-    private Orders orders ;
+    private String totalOrders;
 
     public Bill() {
     }
 
-    public Bill(Integer idBill, String invoiceDate, String priceBill, Orders orders) {
+    public Bill(Integer idBill, String invoiceDate, String totalOrders) {
         this.idBill = idBill;
         this.invoiceDate = invoiceDate;
-        this.priceBill = priceBill;
-        this.orders = orders;
+        this.totalOrders = totalOrders;
     }
 
     public Integer getIdBill() {
@@ -44,19 +40,11 @@ public class Bill {
         this.invoiceDate = invoiceDate;
     }
 
-    public String getPriceBill() {
-        return priceBill;
+    public String getTotalOrders() {
+        return totalOrders;
     }
 
-    public void setPriceBill(String priceBill) {
-        this.priceBill = priceBill;
-    }
-
-    public Orders getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Orders orders) {
-        this.orders = orders;
+    public void setTotalOrders(String totalOrders) {
+        this.totalOrders = totalOrders;
     }
 }
