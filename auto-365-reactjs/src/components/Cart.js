@@ -18,7 +18,6 @@ export function Cart() {
     });
 
     const findAllCart = async () => {
-        debugger
         try {
             const result = await findCartByCustomerId(token);
             setCarts(result);
@@ -29,24 +28,7 @@ export function Cart() {
         }
     };
 
-    const removeCart = async (id) => {
-        try {
-            await deleteCart(id, token);
-            Swal.fire({
-                title: 'Thông báo',
-                text: 'Xoá sản phẩm thành công!',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            })
-            findAllCart();
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-
     useEffect(() => {
-        debugger
         {
             username ? (async () => {
                 const result = await findCustomer(token);
@@ -114,6 +96,21 @@ export function Cart() {
         }
     };
 
+    const removeCart = async (id) => {
+        try {
+            await deleteCart(id, token);
+            Swal.fire({
+                title: 'Thông báo',
+                text: 'Xoá sản phẩm thành công!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            })
+            findAllCart();
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     return (
         <>
             <div className="container cart-margin">
@@ -162,7 +159,7 @@ export function Cart() {
                                                 })}
                                             </div>
                                             <div className="col">
-                                                <a onClick={() => deleteCart(cart?.idCart)}>
+                                                <a onClick={() => removeCart(cart?.idCart)}>
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         width={16}

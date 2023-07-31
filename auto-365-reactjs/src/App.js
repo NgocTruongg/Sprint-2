@@ -12,6 +12,7 @@ import {ProductDVD} from "./components/product/ProductDVD";
 import {ProductCamera} from "./components/product/ProductCamera";
 import {ProductSensor} from "./components/product/ProductSensor";
 import {QuantityProvider} from "./components/ValueIconCartContext";
+import {Abc} from "./components/home/abc";
 
 function App() {
     return (
@@ -27,6 +28,7 @@ function App() {
                     <Route path="/product-dvd" element={<ProductDVD/>}></Route>
                     <Route path="/product-camera" element={<ProductCamera/>}></Route>
                     <Route path="/product-sensor" element={<ProductSensor/>}></Route>
+                    <Route path="/test" element={<Abc/>}></Route>
                 </Routes>
                 <Footer/>
             </QuantityProvider>

@@ -16,7 +16,6 @@ export function ProductDetail() {
     const username = localStorage.getItem("USERNAME");
     const [product, setProduct] = useState(null);
 
-
     useEffect(() => {
         (async () => {
             const result = await findProductById(params.id);
@@ -76,6 +75,7 @@ export function ProductDetail() {
         }
         try {
             await addCart({...cart, quantity: quantity, product: id}, token);
+            debugger
             setIconQuantity(iconQuantity + 1)
             Swal.fire({
                 title: 'Thông báo',
@@ -141,7 +141,7 @@ export function ProductDetail() {
                                     </div>
                                 </div>
                                 <div className="btn btn-primary px-3">
-                                    {sessionStorage.getItem("TOKEN") && (
+                                    {localStorage.getItem("TOKEN") && (
                                         <div className="row" style={{marginTop: 20}}>
                                             <div className="col">
                                                 <button className="button-add"
@@ -151,7 +151,7 @@ export function ProductDetail() {
                                             </div>
                                         </div>
                                     )}
-                                    {!sessionStorage.getItem("TOKEN") && (
+                                    {!localStorage.getItem("TOKEN") && (
                                         <div className="row" style={{marginTop: 20}}>
                                             <div className="col">
                                                 <Link to="/login">

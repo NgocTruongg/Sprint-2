@@ -9,7 +9,7 @@
 }
 
 #header-auto .header__menu {
-    width: 700px;
+    width: 100%;
     text-decoration: none;
     margin-top: 14px;
 }
@@ -172,4 +172,9 @@
     color: white;
     border-radius: 6px;
     margin-right: 7px;
+}
+.input-search{
+    display: flex;
+    width:50%;
+
 }
