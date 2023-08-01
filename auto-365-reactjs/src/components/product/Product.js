@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {findAll, findAllProductType} from "../../service/product/productService";
+import {findAll} from "../../service/product/productService";
 import ReactPaginate from "react-paginate";
 import "../../css/product.css"
 import {Link} from "react-router-dom";
@@ -23,10 +23,6 @@ export function Product() {
     const handlePageOnclick = (event) => {
         setRequest((prev) => ({...prev, page: event.selected}))
     }
-
-    const handleTypeProductOnchange = (event) => {
-        setRequest((prev) => ({...prev, productTypeId: +event.target.value}))
-    };
 
     useEffect(() => {
         (async () => {
@@ -70,15 +66,7 @@ export function Product() {
                     className="title-product">Sản Phẩm</span>
                 </h2>
                 <div className="row px-xl-5">
-                    {products.length === 0 ? (
-                        <div
-                            className="message-search">
-                            <div>Không tìm thấy tên sản phẩm</div>
-                            <div className="text-center" style={{fontSize: 100}}><i
-                                className="fas fa-search icon-search"/></div>
-                        </div>
-
-                    ) : products.map((product, index) => {
+                    { products.map((product, index) => {
                             return (
                                 <div className="col-lg-3 col-md-4 col-sm-6 pb-1" key={index}>
                                     <div className="product-item bg-light mb-4">
@@ -123,7 +111,7 @@ export function Product() {
             ) : (
                 <div>
                     {products && (
-                        <div className="d-grid" style={{marginLeft: "46%", marginTop: 10}}>
+                        <div style={{marginLeft: "37%"}}>
                             <ReactPaginate
                                 previousLabel="Trước"
                                 nextLabel="Sau"
@@ -131,13 +119,15 @@ export function Product() {
                                 onPageChange={handlePageOnclick}
                                 containerClassName='pagination'
                                 previousClassName='page-item'
-                                previousLinkClassName='page-link'
+                                previousLinkClassName='btn btn-warning'
                                 nextClassName='page-item'
-                                nextLinkClassName='page-link'
+                                nextLinkClassName='btn btn-warning'
                                 pageClassName='page-item'
-                                pageLinkClassName='page-link'
+                                pageLinkClassName='btn btn-warning'
                                 activeClassName='active'
-                                activeLinkClassName='page-link'
+                                activeLinkClassName='btn btn-danger'
+                                // pageRangeDisplayed={2} // Hiển thị 2 trang trên mỗi lần render
+                                // marginPagesDisplayed={1} // Hiển thị 1 trang ở đầu và cuối danh sách trang
                             />
                         </div>
                     )}

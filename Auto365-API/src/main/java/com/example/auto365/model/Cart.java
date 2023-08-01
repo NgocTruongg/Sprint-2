@@ -17,18 +17,15 @@ public class Cart {
     @JoinColumn(columnDefinition = "product_id")
     private Product product;
 
-    @ManyToOne
-    @JoinColumn(name = "id_bill", referencedColumnName = "id_bill")
-    private Bill bill;
     public Cart() {
     }
-    public Cart(Integer idCart, Integer quantity, boolean status, Customer customer, Product product, Bill bill) {
+    public Cart(Integer idCart, Integer quantity, boolean status, Customer customer,
+                Product product) {
         this.idCart = idCart;
         this.quantity = quantity;
         this.status = status;
         this.customer = customer;
         this.product = product;
-        this.bill = bill;
     }
 
 
@@ -70,13 +67,5 @@ public class Cart {
 
     public void setProduct(Product product) {
         this.product = product;
-    }
-
-    public Bill getBill() {
-        return bill;
-    }
-
-    public void setBill(Bill bill) {
-        this.bill = bill;
     }
 }

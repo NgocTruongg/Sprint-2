@@ -13,10 +13,17 @@ export function ProductCamera() {
     const token = localStorage.getItem("TOKEN");
     const username = localStorage.getItem("USERNAME");
     const [quantity, setQuantity] = useState(0);
+    const [itemsToShow, setItemsToShow] = useState(8); // Số sản phẩm hiển thị ban đầu
+    const [itemsPerLoad, setItemsPerLoad] = useState(4);
+
     const {iconQuantity, setIconQuantity} = useContext(ValueIconCartContext);
 
+    const handleLoadMore = () => {
+        setItemsToShow(prevItems => prevItems + itemsPerLoad);
+    };
+
     useEffect(() => {
-        document.title = "Sản phẩm";
+        document.title = "Camera Hành Trình";
     }, []);
     const AddCart = async (id) => {
         const cart = {
@@ -56,7 +63,7 @@ export function ProductCamera() {
                     className="title-product">Sản Phẩm Camera Hành Trình</span>
                 </h2>
                 <div className="row px-xl-5">
-                    {typeProducts.map((type, index) => {
+                    {typeProducts?.slice(0, itemsToShow)?.map((type, index) => {
                         return (
                             <div className="col-lg-3 col-md-4 col-sm-6 pb-1" key={index}>
                                 <div className="product-item bg-light mb-4">
@@ -94,6 +101,13 @@ export function ProductCamera() {
                             </div>
                         )
                     })}
+                    {itemsToShow < typeProducts.length && (
+                        <div className="text-center mt-3">
+                            <button className="btn btn-warning" onClick={handleLoadMore}>
+                                Xem Thêm
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </>

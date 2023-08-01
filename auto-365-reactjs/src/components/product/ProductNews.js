@@ -1,10 +1,17 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {findNewsProduct} from "../../service/product/productService";
 import {Link} from "react-router-dom";
+import {addCart} from "../../service/cart/CartService";
+import Swal from "sweetalert2";
+import {ValueIconCartContext} from "../ValueIconCartContext";
 
 
 export function ProductNews() {
+    const token = localStorage.getItem("TOKEN");
+    const username = localStorage.getItem("USERNAME");
+    const [quantity, setQuantity] = useState(1);
     const [products, setProducts] = useState([]);
+    const {iconQuantity, setIconQuantity} = useContext(ValueIconCartContext);
 
     useEffect(() => {
         (async () => {
@@ -12,6 +19,29 @@ export function ProductNews() {
             setProducts(productList);
         })()
     }, []);
+
+
+    useEffect(() => {
+    }, []);
+    const AddCart = async (id) => {
+        const cart = {
+            quantity: 1,
+            status: true,
+            product: ""
+        }
+        try {
+            await addCart({...cart, quantity: quantity, product: id}, token);
+            setIconQuantity(iconQuantity + 1)
+            Swal.fire({
+                title: 'Thông báo',
+                text: 'Thêm thành công sản phẩm vào giỏ hàng!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    };
 
     return (
         <>
@@ -28,8 +58,8 @@ export function ProductNews() {
                                         <img className="img-fluid w-100" src={product.image} alt=""/>
                                     </Link>
                                     <div className="product-action">
-                                        <Link to="/cart" className="btn btn-outline-dark btn-square">
-                                            <i className="bi bi-cart3"/>
+                                        <Link className="btn btn-warning mr-2">
+                                            <i className="bi bi-cart3" onClick={() => AddCart(product?.productId)}/>
                                         </Link>
                                     </div>
                                 </div>
@@ -43,7 +73,8 @@ export function ProductNews() {
                                     </div>
                                     <div className="d-flex align-items-center justify-content-center mt-2">
                                         <p className="card-price">
-                                            <span style={{color: "red"}}>{new Intl.NumberFormat().format(product.price)} VND</span>
+                                            <span
+                                                style={{color: "red"}}>{new Intl.NumberFormat().format(product.price)} VND</span>
                                         </p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-center mt-2">

@@ -20,12 +20,6 @@ public class ProductService implements IProductService {
     @Autowired
     private IProductRepository productRepository;
 
-
-//    @Override
-//    public Page<Product> findAllProduct( String name, Integer productTypeId,Pageable pageable) {
-//        return productRepository.findProductByProductNameAndAndProductTypeContaining(name, productTypeId, pageable);
-//    }
-
     @Override
     public Page<Product> findAll(Pageable pageable) {
         return productRepository.findAll(pageable);
@@ -58,5 +52,10 @@ public class ProductService implements IProductService {
     @Override
     public List<Product> getProductByTypeProduct(Integer type) {
         return productRepository.getProductByType(type);
+    }
+
+    @Override
+    public void save(Product product) {
+        productRepository.save(product);
     }
 }

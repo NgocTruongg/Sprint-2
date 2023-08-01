@@ -1,7 +1,6 @@
 package com.example.auto365.model;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "orders")
@@ -9,74 +8,43 @@ public class Orders {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_orders")
+    private Integer idOrders;
 
-    @Column(name = "orders_id")
-    private Integer ordersId;
+    private String invoiceDate;
 
-    private String quantityOrders;
-
-    @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
-    private Product product;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
-    private Customer customer;
-
-    @ManyToOne
-    @JoinColumn(name = "id_bill", referencedColumnName = "id_bill")
-    private Bill bill;
-
+    private String totalPayment;
 
     public Orders() {
     }
 
-    public Orders(Integer ordersId, String quantityOrders,
-                  Product product, Customer customer, Bill bill) {
-        this.ordersId = ordersId;
-        this.quantityOrders = quantityOrders;
-        this.product = product;
-        this.customer = customer;
-        this.bill = bill;
+    public Orders(Integer idOrders, String invoiceDate, String totalPayment) {
+        this.idOrders = idOrders;
+        this.invoiceDate = invoiceDate;
+        this.totalPayment = totalPayment;
     }
 
-    public Integer getOrdersId() {
-        return ordersId;
+    public Integer getIdOrders() {
+        return idOrders;
     }
 
-    public void setOrdersId(Integer ordersId) {
-        this.ordersId = ordersId;
+    public void setIdOrders(Integer idOrders) {
+        this.idOrders = idOrders;
     }
 
-    public String getQuantityOrders() {
-        return quantityOrders;
+    public String getInvoiceDate() {
+        return invoiceDate;
     }
 
-    public void setQuantityOrders(String quantityOrders) {
-        this.quantityOrders = quantityOrders;
+    public void setInvoiceDate(String invoiceDate) {
+        this.invoiceDate = invoiceDate;
     }
 
-    public Product getProduct() {
-        return product;
+    public String getTotalPayment() {
+        return totalPayment;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public Bill getBill() {
-        return bill;
-    }
-
-    public void setBill(Bill bill) {
-        this.bill = bill;
+    public void setTotalPayment(String totalPayment) {
+        this.totalPayment = totalPayment;
     }
 }

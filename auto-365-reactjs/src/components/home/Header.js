@@ -29,16 +29,8 @@ export function Header() {
                                 <input type="text" className="form-control" placeholder="Bạn cần tìm ...?"/>
                             </div>
                             <button className="btn btn-warning">
-                                <i className="bi bi-search "/>
+                                <i className="bi bi-search"/>
                             </button>
-                            <div className="col-lg-6 col-4">
-                                <ul>
-                                    <li>Lịch Sử Mua Hàng</li>
-                                </ul>
-                                <ul>
-                                    <li>Dịch Vụ</li>
-                                </ul>
-                            </div>
                         </form>
                     </div>
                     <div className="col-lg-4 col-4" style={{textAlign: "end", fontWeight: "bold", color: "black"}}>
@@ -84,7 +76,7 @@ export function Header() {
                                         <Link to={"/"}>Màn Hình HUD</Link>
                                     </li>
                                     <li>
-                                        <Link to={"/"}>Kèn Xe</Link>
+                                        <Link to={"/product-camera"}>Camera Hành Trình</Link>
                                     </li>
                                 </ul>
                             </li>
@@ -112,7 +104,10 @@ export function Header() {
                                 <nav className="header__menu">
                                     <ul>
                                         <li>
-                                            <Link to="/">{localStorage.getItem("USERNAME")}</Link>
+                                            <Link to="/"style={{color: "white", display: "flex"}}>
+                                                <i className="bi bi-person-bounding-box"/>
+                                                {localStorage.getItem("USERNAME")}
+                                            </Link>
                                             <ul className="header__menu__dropdown">
                                                 <li>
                                                     <Link to={"/employee"}>Quản Lý Nhân Viên</Link>

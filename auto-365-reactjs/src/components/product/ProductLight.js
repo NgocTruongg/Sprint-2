@@ -14,6 +14,7 @@ export function ProductLight() {
 
 
     useEffect(() => {
+        document.title = "Nâng Cấp Ánh Sáng";
         (async () => {
             const result = await getAllProductByType(3);
             setTypeProducts(result);
@@ -70,7 +71,7 @@ export function ProductLight() {
                     ))}
                     {itemsToShow < typeProducts.length && (
                         <div className="text-center mt-3">
-                            <button className="btn btn-primary" onClick={handleLoadMore}>
+                            <button className="btn btn-warning" onClick={handleLoadMore}>
                                 Load More
                             </button>
                         </div>

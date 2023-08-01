@@ -63,7 +63,6 @@ public class CartController {
             } else {
                 return new ResponseEntity<>(new ResponseMessage("Thêm sản phẩm vào giỏ hàng thành công"), HttpStatus.BAD_REQUEST);
             }
-
         } else {
             Cart cart = new Cart();
             if (product.getQuantity() >= cartCreateDTO.getQuantity()) {
@@ -101,5 +100,4 @@ public class CartController {
         iCartService.delete(iCartService.findById(id));
         return new ResponseEntity<>(new ResponseMessage("Xoá sản phẩm thành công"), HttpStatus.OK);
     }
-
 }

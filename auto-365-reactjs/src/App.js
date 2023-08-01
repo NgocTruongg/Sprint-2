@@ -4,7 +4,7 @@ import {ProductDetail} from "./components/product/ProductDetail";
 import {Footer} from "./components/home/Footer";
 import {Header} from "./components/home/Header";
 import {HomePage} from "./components/home/HomePage";
-import {Cart} from "./components/Cart";
+import {Cart} from "./components/cart/Cart";
 import {Route, Routes} from "react-router-dom";
 import {Login} from "./components/login/Login";
 import {ProductLight} from "./components/product/ProductLight";
@@ -12,7 +12,6 @@ import {ProductDVD} from "./components/product/ProductDVD";
 import {ProductCamera} from "./components/product/ProductCamera";
 import {ProductSensor} from "./components/product/ProductSensor";
 import {QuantityProvider} from "./components/ValueIconCartContext";
-import {Abc} from "./components/home/abc";
 
 function App() {
     return (
@@ -28,7 +27,6 @@ function App() {
                     <Route path="/product-dvd" element={<ProductDVD/>}></Route>
                     <Route path="/product-camera" element={<ProductCamera/>}></Route>
                     <Route path="/product-sensor" element={<ProductSensor/>}></Route>
-                    <Route path="/test" element={<Abc/>}></Route>
                 </Routes>
                 <Footer/>
             </QuantityProvider>
