@@ -42,9 +42,9 @@ export function Login() {
                         login(values)
                             .then((e) => {
                                 console.log(e)
-                                localStorage.setItem('TOKEN', e.token);
-                                localStorage.setItem('USERNAME', e.username);
-                                localStorage.setItem('ROLES', e.roles[0].authority);
+                                sessionStorage.setItem('TOKEN', e.token);
+                                sessionStorage.setItem('USERNAME', e.username);
+                                sessionStorage.setItem('ROLES', e.roles[0].authority);
                                 Swal.fire({
                                     title: 'Thông báo',
                                     text: 'Đăng nhập thành công!',

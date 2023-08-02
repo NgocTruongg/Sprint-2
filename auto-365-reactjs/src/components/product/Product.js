@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {findAll} from "../../service/product/productService";
+import {findAll, getAllProductByType, getAllTypeProduct} from "../../service/product/productService";
 import ReactPaginate from "react-paginate";
 import "../../css/product.css"
 import {Link} from "react-router-dom";
@@ -9,15 +9,27 @@ import {ValueIconCartContext} from "../ValueIconCartContext";
 
 
 export function Product() {
-    const token = localStorage.getItem("TOKEN");
-    const username = localStorage.getItem("USERNAME");
+    const token = sessionStorage.getItem("TOKEN");
+    const username = sessionStorage.getItem("USERNAME");
     const [products, setProducts] = useState([]);
+    const [productType, setProductType] = useState([])
     const {iconQuantity, setIconQuantity} = useContext(ValueIconCartContext);
     const [request, setRequest] = useState({
         page: 0,
         name: "",
     })
     const [pageCount, setPageCount] = useState(0);
+
+    const handleDisplayByType = async (type) => {
+        const res = await getAllProductByType(type);
+        setProducts(res);
+    };
+
+    const handleDisplayAll = async () => {
+        const productList = await findAll(request);
+        setPageCount(productList.totalPages);
+        setProducts(productList.content);
+    };
 
 
     const handlePageOnclick = (event) => {
@@ -31,6 +43,14 @@ export function Product() {
             setProducts(productList.content);
         })()
     }, [request]);
+
+    useEffect(() => {
+        const showProductType = async () => {
+            const rs = await getAllTypeProduct();
+            setProductType(rs)
+        }
+        showProductType()
+    }, []);
 
 
     const [quantity, setQuantity] = useState(1);
@@ -46,7 +66,7 @@ export function Product() {
             product: ""
         }
         try {
-            await addCart({...cart, quantity: quantity , product: id}, token);
+            await addCart({...cart, quantity: quantity, product: id}, token);
             setIconQuantity(iconQuantity + 1)
             Swal.fire({
                 title: 'Thông báo',
@@ -62,13 +82,36 @@ export function Product() {
     return (
         <>
             <div className="container-fluid pt-5 pb-3">
-                <h2 className="section-title position-relative text-uppercase mx-xl-5 mb-4"><span
-                    className="title-product">Sản Phẩm</span>
-                </h2>
+                <section className="featured spad">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-lg-12">
+                                <h2 className="section-title-all">
+                                    <span>Featured Product</span>
+                                </h2>
+                                <div className="featured__controls">
+                                    <ul>
+                                        <li onClick={() => handleDisplayAll()} className="active">
+                                            Tất Cả
+                                        </li>
+                                        {productType.map((value, index) => {
+                                            return (
+                                                <li onClick={() => handleDisplayByType(value.productTypeId)}>
+                                                    {value.productTypeName}
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <div className="row px-xl-5">
-                    { products.map((product, index) => {
+                    {products.map((product, index) => {
                             return (
-                                <div className="col-lg-3 col-md-4 col-sm-6 pb-1" key={index}>
+                                <div className="col-lg-3 col-md-4 col-sm-6 pb-1" key={index} >
                                     <div className="product-item bg-light mb-4">
                                         <div className="product-img position-relative overflow-hidden">
                                             <Link to={`/${product.productId}`} className="card-text ">
@@ -90,7 +133,8 @@ export function Product() {
                                             </div>
                                             <div className="d-flex align-items-center justify-content-center mt-2">
                                                 <p className="card-price">
-                                                    <span style={{color: "red"}}>{new Intl.NumberFormat().format(product.price)} VND</span>
+                                                    <span
+                                                        style={{color: "red"}}>{new Intl.NumberFormat().format(product.price)} VND</span>
                                                 </p>
                                             </div>
                                             <div className="d-flex align-items-center justify-content-center mt-2">
@@ -126,8 +170,6 @@ export function Product() {
                                 pageLinkClassName='btn btn-warning'
                                 activeClassName='active'
                                 activeLinkClassName='btn btn-danger'
-                                // pageRangeDisplayed={2} // Hiển thị 2 trang trên mỗi lần render
-                                // marginPagesDisplayed={1} // Hiển thị 1 trang ở đầu và cuối danh sách trang
                             />
                         </div>
                     )}

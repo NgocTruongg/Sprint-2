@@ -1,4 +1,4 @@
-package com.example.auto365.controller;
+package com.example.auto365.controller.login;
 import com.example.auto365.security.jwt.JwtProvider;
 import com.example.auto365.security.request.SignInForm;
 import com.example.auto365.security.response.ErrorMessage;

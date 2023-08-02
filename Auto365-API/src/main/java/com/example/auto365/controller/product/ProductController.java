@@ -1,4 +1,4 @@
-package com.example.auto365.controller;
+package com.example.auto365.controller.product;
 
 import com.example.auto365.dto.ProductDTO;
 import com.example.auto365.model.Product;
@@ -24,17 +24,6 @@ public class ProductController {
     @Autowired
     private IProductService productService;
 
-//    @GetMapping("")
-//    public ResponseEntity<Page<Product>> findProductByName (
-//            @RequestParam(required = false, defaultValue = "") String name,
-//            @RequestParam(name = "productTypeId", defaultValue = "0") Integer productTypeId,
-//            @PageableDefault(size = 8) Pageable pageable ) {
-//        Page<Product> products = productService.findAllProduct(name, productTypeId,pageable);
-//        if (products.isEmpty()) {
-//            return new ResponseEntity<>(products, HttpStatus.NOT_FOUND);
-//        }
-//        return new ResponseEntity<>(products, HttpStatus.OK);
-//    }
 
     // lây ra sản phẩm mới nhất được thêm vào
     @GetMapping("/newProduct")

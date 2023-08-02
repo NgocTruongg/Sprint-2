@@ -1,15 +1,16 @@
 import {Link, useNavigate} from "react-router-dom";
 import "../../css/header.css"
 import React from "react";
+import {Form} from "formik";
 
 
 export function Header() {
     const navigate = useNavigate();
 
     const logout = () => {
-        localStorage.removeItem("TOKEN");
-        localStorage.removeItem("USERNAME");
-        localStorage.removeItem("ROLES");
+        sessionStorage.removeItem("TOKEN");
+        sessionStorage.removeItem("USERNAME");
+        sessionStorage.removeItem("ROLES");
         navigate("/")
     };
 
@@ -23,15 +24,13 @@ export function Header() {
                             <img src="https://auto365.vn/images/logo-bw.png" alt=""/>
                         </Link>
                     </div>
-                    <div className="col-lg-6">
-                        <form style={{display:"flex"}}>
-                            <div className="input-search">
-                                <input type="text" className="form-control" placeholder="Bạn cần tìm ...?"/>
-                            </div>
-                            <button className="btn btn-warning">
-                                <i className="bi bi-search"/>
-                            </button>
-                        </form>
+                    <div className="col-lg-6" style={{display: "flex"}}>
+                        <div className="input-search">
+                            <input type="text" className="form-control" placeholder="Bạn cần tìm ...?"/>
+                        </div>
+                        <button className="btn btn-warning">
+                            <i className="bi bi-search"/>
+                        </button>
                     </div>
                     <div className="col-lg-4 col-4" style={{textAlign: "end", fontWeight: "bold", color: "black"}}>
                         <p className="m-0">Hỗ trợ trực tuyến 24/7</p>
@@ -89,7 +88,7 @@ export function Header() {
                 <div className="col-lg-3">
                     <div className="header__cart">
                         <>
-                            {!localStorage.getItem("TOKEN") && (
+                            {!sessionStorage.getItem("TOKEN") && (
                                 <nav className="header__menu">
                                     <ul>
                                         <li className="active">
@@ -100,13 +99,13 @@ export function Header() {
                                     </ul>
                                 </nav>
                             )}
-                            {localStorage.getItem("ROLES") === "ADMIN" && (
+                            {sessionStorage.getItem("ROLES") === "ADMIN" && (
                                 <nav className="header__menu">
                                     <ul>
                                         <li>
-                                            <Link to="/"style={{color: "white", display: "flex"}}>
+                                            <Link to="/" style={{color: "white", display: "flex"}}>
                                                 <i className="bi bi-person-bounding-box"/>
-                                                {localStorage.getItem("USERNAME")}
+                                                {sessionStorage.getItem("USERNAME")}
                                             </Link>
                                             <ul className="header__menu__dropdown">
                                                 <li>
@@ -124,13 +123,13 @@ export function Header() {
                                 </nav>
                             )}
 
-                            {localStorage.getItem("ROLES") === "USER" && (
+                            {sessionStorage.getItem("ROLES") === "USER" && (
                                 <nav className="header__menu">
                                     <ul>
                                         <li>
                                             <Link to="/" style={{color: "white", display: "flex"}}>
                                                 <i className="bi bi-person-bounding-box"/>
-                                                {localStorage.getItem("USERNAME")}
+                                                {sessionStorage.getItem("USERNAME")}
                                             </Link>
                                             <ul className="header__menu__dropdown">
                                                 <li>

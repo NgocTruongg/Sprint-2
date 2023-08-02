@@ -12,7 +12,6 @@ export function ProductLight() {
         setItemsToShow(prevItems => prevItems + itemsPerLoad);
     };
 
-
     useEffect(() => {
         document.title = "Nâng Cấp Ánh Sáng";
         (async () => {
@@ -72,7 +71,7 @@ export function ProductLight() {
                     {itemsToShow < typeProducts.length && (
                         <div className="text-center mt-3">
                             <button className="btn btn-warning" onClick={handleLoadMore}>
-                                Load More
+                               Xem thêm
                             </button>
                         </div>
                     )}

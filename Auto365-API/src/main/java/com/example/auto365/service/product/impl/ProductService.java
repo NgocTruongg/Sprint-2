@@ -2,7 +2,9 @@ package com.example.auto365.service.product.impl;
 
 import com.example.auto365.dto.ProductDTO;
 import com.example.auto365.model.Product;
+import com.example.auto365.model.ProductType;
 import com.example.auto365.repository.IProductRepository;
+import com.example.auto365.repository.IProductsRepository;
 import com.example.auto365.service.product.IProductService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ public class ProductService implements IProductService {
 
     @Autowired
     private IProductRepository productRepository;
+
 
     @Override
     public Page<Product> findAll(Pageable pageable) {

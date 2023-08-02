@@ -8,8 +8,8 @@ import {findCustomer} from "../../service/customer/CustomerService";
 
 export function Cart() {
     const [carts, setCarts] = useState([]);
-    const token = localStorage.getItem("TOKEN");
-    const username = localStorage.getItem("USERNAME");
+    const token = sessionStorage.getItem("TOKEN");
+    const username = sessionStorage.getItem("USERNAME");
     const [customer, setCustomer] = useState();
     const {setIconQuantity} = useContext(ValueIconCartContext)
     const [cart] = useState({
@@ -126,7 +126,7 @@ export function Cart() {
                             <span className="breadcrumb-item active">Giỏ Hàng</span>
                         </nav>
                     </div>
-                    <div className="col-lg-8 table-responsive mb-4">
+                    <div className="col-lg-8 table-responsive mb-4" style={{boxShadow:"0px 0px 14px black"}}>
                         {carts.length === 0 ? (
                             <div className="row border-top border-bottom">
                                 <div className="row main">
@@ -180,31 +180,41 @@ export function Cart() {
                             </table>
                         )}
                     </div>
-                    <div className="col-lg-4" style={{marginTop: "60px"}}>
-                        <h5 className="section-title position-relative text-uppercase mb-3">
-                            <span className="bg-secondary pr-3">Giỏ Hàng</span>
+                    <div className="col-lg-3" style={{height:"50%", boxShadow:"0px 0px 14px black", marginLeft:"auto"}}>
+                        <h5 style={{textAlign:"center"}} className="mt-3">
+                           Giỏ Hàng
                         </h5>
-                        <div className="bg-light p-30 mb-5">
+                        <div className="p-30 mb-5">
                             <div className="border-bottom pb-2">
                                 <div className="d-flex justify-content-between mb-3">
-                                    <h6>Tổng Tiền</h6>
+                                    <h6>Thành tiền:</h6>
                                     <h6>
                                         {new Intl.NumberFormat().format(totalPrice)} VND
                                     </h6>
                                 </div>
-                                <div className="d-flex justify-content-between">
-                                    <h6 className="font-weight-medium">Phí Giao Hàng</h6>
+                                <div className="d-flex justify-content-between mb-3">
+                                    <h6 className="font-weight-medium">Tiền ship:</h6>
+                                    <h6>0 VND</h6>
+                                </div>
+                                <div className="d-flex justify-content-between mb-3 ">
+                                    <h6 className="font-weight-medium">Giảm giá:</h6>
+                                    <h6>0 VND</h6>
                                 </div>
                             </div>
                             <div className="pt-2">
                                 <div className="d-flex justify-content-between mt-2">
-                                    <h5>Tổng</h5>
+                                    <h5>Tổng số tiền: </h5>
                                     <h5>
                                         {new Intl.NumberFormat().format(totalPrice)} VND
                                     </h5>
                                 </div>
-                                <button className="btn btn-warning  my-3 py-3">
-                                    Thanh toán
+                                <button className="btn btn-warning mt-3" style={{width:"100%"}}>
+                                    Thanh toán <i className="bi bi-wallet2"/>
+                                </button>
+                                <button className="btn btn-secondary mt-3" style={{width:"100%"}}>
+                                    <Link to="/" style={{textDecoration:"none", color:"white"}}>
+                                        <i className="bi bi-caret-left-square"/>   Mua thêm sản phẩm
+                                    </Link>
                                 </button>
                             </div>
                         </div>

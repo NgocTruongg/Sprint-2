@@ -1,6 +1,5 @@
-package com.example.auto365.controller;
+package com.example.auto365.controller.product;
 
-import com.example.auto365.model.Product;
 import com.example.auto365.model.ProductType;
 import com.example.auto365.service.product.IProductTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +15,12 @@ import java.util.List;
 public class ProductTypeController {
 
     @Autowired
-    private IProductTypeService iProductTypeService;
+    private IProductTypeService productTypeService;
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/type")
-    public List<ProductType> findAllProductType(){
-        return iProductTypeService.findAllType();
+    public ResponseEntity<List<ProductType>>getAllProductType(){
+        List<ProductType> productTypeList = productTypeService.findAllType();
+        return new ResponseEntity<>(productTypeList, HttpStatus.OK);
     }
-
-
-
 }
 

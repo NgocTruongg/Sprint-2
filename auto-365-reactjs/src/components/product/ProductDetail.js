@@ -11,9 +11,9 @@ import "../../css/detail.css"
 
 export function ProductDetail() {
     const params = useParams();
-    const token = localStorage.getItem("TOKEN");
+    const token = sessionStorage.getItem("TOKEN");
     const {iconQuantity, setIconQuantity} = useContext(ValueIconCartContext);
-    const username = localStorage.getItem("USERNAME");
+    const username = sessionStorage.getItem("USERNAME");
     const [product, setProduct] = useState(null);
 
     useEffect(() => {
@@ -141,7 +141,7 @@ export function ProductDetail() {
                                     </div>
                                 </div>
                                 <div className="btn btn-primary px-3">
-                                    {localStorage.getItem("TOKEN") && (
+                                    {sessionStorage.getItem("TOKEN") && (
                                         <div className="row" style={{marginTop: 20}}>
                                             <div className="col">
                                                 <button className="button-add"
@@ -151,7 +151,7 @@ export function ProductDetail() {
                                             </div>
                                         </div>
                                     )}
-                                    {!localStorage.getItem("TOKEN") && (
+                                    {!sessionStorage.getItem("TOKEN") && (
                                         <div className="row" style={{marginTop: 20}}>
                                             <div className="col">
                                                 <Link to="/login">

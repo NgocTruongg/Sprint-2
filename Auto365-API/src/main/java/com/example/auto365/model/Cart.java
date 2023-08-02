@@ -1,5 +1,7 @@
 package com.example.auto365.model;
 
+import com.example.auto365.dto.ProductDTO;
+
 import javax.persistence.*;
 
 @Entity
@@ -19,15 +21,15 @@ public class Cart {
 
     public Cart() {
     }
-    public Cart(Integer idCart, Integer quantity, boolean status, Customer customer,
-                Product product) {
+
+    public Cart(Integer idCart, Integer quantity, boolean status,
+                Customer customer, Product product) {
         this.idCart = idCart;
         this.quantity = quantity;
         this.status = status;
         this.customer = customer;
         this.product = product;
     }
-
 
     public Integer getIdCart() {
         return idCart;

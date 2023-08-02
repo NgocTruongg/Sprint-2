@@ -2,6 +2,7 @@ package com.example.auto365.service.product;
 
 import com.example.auto365.dto.ProductDTO;
 import com.example.auto365.model.Product;
+import com.example.auto365.model.ProductType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -18,4 +19,5 @@ public interface IProductService {
 
     List<Product> getProductByTypeProduct(Integer type);
     void save(Product product);
+
 }

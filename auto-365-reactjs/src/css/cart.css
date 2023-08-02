@@ -9686,4 +9686,5 @@ a.text-dark:hover, a.text-dark:focus {
   bottom: 30px;
   z-index: 11;
   animation: action 1s infinite alternate;
+  background: #9a9fa2;
 }
