@@ -13,7 +13,7 @@ import java.util.Date;
 public class JwtProvider {
     private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
     private String jwtSecret = "auto365-secret"; // đây là SIGNATURE
-    private long jwtExpiration = 3600000L; // set thời gian hết hạn của token là 1h
+    private long jwtExpiration = 43200000L; // set thời gian hết hạn của token là 1h
 
     /**
      * @Param authentication

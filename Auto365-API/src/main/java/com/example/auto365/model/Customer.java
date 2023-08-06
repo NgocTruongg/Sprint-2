@@ -19,13 +19,11 @@ public class Customer {
 
     private String email;
 
-    private Double gender;
+    private String gender;
 
     private LocalDate dayOfBirth;
     @Column(columnDefinition = "bit(1) default 0")
     private Boolean isDelete;
-
-
     @OneToOne
     @JoinColumn(name = "account_id", referencedColumnName = "account_id")
     private Account account;
@@ -34,7 +32,7 @@ public class Customer {
     }
 
     public Customer(Integer customerId, String customerName, String numberPhone, String address,
-                    String email, Double gender, LocalDate dayOfBirth, Boolean isDelete, Account account) {
+                    String email, String gender, LocalDate dayOfBirth, Boolean isDelete, Account account) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.numberPhone = numberPhone;
@@ -86,11 +84,11 @@ public class Customer {
         this.email = email;
     }
 
-    public Double getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Double gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 

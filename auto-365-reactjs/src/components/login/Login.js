@@ -15,7 +15,7 @@ export function Login() {
         return null;
     }
     return (
-        <div className="wrapper" id="login-auto">
+        <div id="login-auto" >
             <div className="inner">
                 <Formik
                     initialValues={{
@@ -61,31 +61,32 @@ export function Login() {
                 >
                     <Form>
                         <>
-                            <h3>Đăng nhập</h3>
-                            <div className="form-wrapper">
-                                <Field type="text" className="form-control form-custom"
-                                       placeholder="Tên đăng nhập"
-                                       name="accountName"/>
-                                <ErrorMessage name="accountName" className="text-danger col-12"
-                                              component="span"/>
-                            </div>
-                            <div className="form-wrapper">
-                                <Field type="password" className="form-control form-custom form-pw"
-                                       placeholder="Mật khẩu" name="accountPassword"/>
+                            <div>
+                                <h3>Đăng nhập</h3>
+                                <div>
+                                    <Field type="text" className="form-control form-custom"
+                                           placeholder="Tên đăng nhập"
+                                           name="accountName"/>
+                                    <ErrorMessage name="accountName" className="text-danger col-12"
+                                                  component="span"/>
+                                </div>
+                                <div className="form-wrapper">
+                                    <Field type="password" className="form-control form-custom form-pw"
+                                           placeholder="Mật khẩu" name="accountPassword"/>
 
-                                <ErrorMessage name="accountPassword" className="text-danger col-12"
-                                              component="span"/>
-                                {failedAccount && (
-                                    <span className="text-danger col-12">{failedAccount}</span>
-                                )}
+                                    <ErrorMessage name="accountPassword" className="text-danger col-12"
+                                                  component="span"/>
+                                    {failedAccount && (
+                                        <span className="text-danger col-12">{failedAccount}</span>
+                                    )}
+                                </div>
+                                <div className="mb-3 float-end">
+                                    <a className="text-forgot-password text-decoration-none">Quên mật khẩu?</a>
+                                </div>
+                                <button type="submit" className="login mt-3 w-100 text-center fw-bold">
+                                    Đăng nhập
+                                </button>
                             </div>
-                            <div className="mb-3 float-end">
-                                <a className="text-forgot-password text-decoration-none" data-bs-toggle="modal"
-                                   data-bs-target="#exampleModal">Quên mật khẩu?</a>
-                            </div>
-                            <button type="submit" className="login mt-3 w-100 text-center fw-bold">
-                                Đăng nhập
-                            </button>
                         </>
                     </Form>
                 </Formik>

@@ -17,7 +17,15 @@ public interface IProductService {
 
     List<Product> findNewProduct();
 
-    List<Product> getProductByTypeProduct(Integer type);
     void save(Product product);
+
+
+    List<Product> getAllProduct();
+
+    List<ProductType> getAllTypeProduct();
+
+    List<Product> getProductByTypeProducts(Integer type);
+
+    List<Product> getProductByNameProduct(String productName);
 
 }

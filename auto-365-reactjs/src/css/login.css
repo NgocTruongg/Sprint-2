@@ -35,11 +35,8 @@
 
 #login-auto .inner {
   width: 50%;
-  background:none;
   margin-left: 25%;
   margin-top: 22px;
-  border: black;
-
 }
 
 #login-auto .inner form {

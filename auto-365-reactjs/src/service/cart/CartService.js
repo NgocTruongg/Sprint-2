@@ -13,8 +13,7 @@ export const findCartByCustomerId = async (token) => {
 export const addCart = async (cart, token) => {
     const headers = {Authorization: "Bearer " + token}
     try {
-       const result =await axios.post(`http://localhost:8080/api/user/cart/add`, {...cart}, {headers})
-        console.log(result.data)
+        await axios.post(`http://localhost:8080/api/user/cart/add`, {...cart}, {headers})
     } catch (e) {
         console.log(e)
     }
@@ -35,6 +34,7 @@ export const deleteCart = async (id, auth) => {
         console.log(e);
     }
 }
+
 export const payment = async (totalPrice, auth) => {
     const headers = {Authorization: "Bearer " + auth}
     try {

@@ -39,10 +39,11 @@ export function ProductDetail() {
     };
 
     const handleDecrease = () => { // xóa
-        if (quantity > 0) {
-            setQuantity(quantity - 1);
+            if (quantity > 0) {
+                setQuantity(quantity - 1);
+            }
         }
-    };
+    ;
     const handleInputChange = (event) => { // thêm sản phẩm vào giỏ hàng nếu số lượng k đủ thì báo
         const newQuantity = parseInt(event.target.value);
         if (!isNaN(newQuantity) && newQuantity >= 1 && newQuantity <= product.quantity) {
@@ -73,16 +74,24 @@ export function ProductDetail() {
             status: true,
             product: ""
         }
+
         try {
             await addCart({...cart, quantity: quantity, product: id}, token);
-            debugger
             setIconQuantity(iconQuantity + 1)
-            Swal.fire({
-                title: 'Thông báo',
-                text: 'Thêm thành công sản phẩm vào giỏ hàng!',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            })
+            if (quantity == 0) {
+                Swal.fire({
+                    title: 'Thông báo',
+                    text: 'Sản phẩm phải lớn hơn hoặc bằng 1!',
+                    icon: 'error',
+                })
+            } else {
+                Swal.fire({
+                    title: 'Thông báo',
+                    text: 'Thêm thành công sản phẩm vào giỏ hàng!',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                })
+            }
         } catch (err) {
             console.log(err)
         }
@@ -93,69 +102,83 @@ export function ProductDetail() {
     }
     return (
         <>
-            <div className="container-fluid pb-5">
+            <div className="container-fluid pb-5 mt-5">
                 <div className="row px-xl-5">
                     <div className="col-lg-5 mb-30">
                         <div id="product-carousel" className="carousel slide" data-ride="carousel">
-                            <div className="carousel-inner bg-light">
-                                <div className="carousel-item active" id="image-news">
+                            <div>
+                                <div className="carousel-item active" id="image-news"
+                                     style={{height: "50%", boxShadow: "0px 0px 14px black"}}>
                                     <img className="w-100 h-100" src={product.image} alt=""/>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="col-lg-7 h-auto mb-30">
-                        <div className="h-100 bg-light p-30">
-                            <h3>{product.productName}</h3>
+                    <div className="col-lg-7" style={{boxShadow: "0px 0px 14px black"}}>
+                        <div className="h-100 p-30">
+                            <h3 className="mt-5">{product.productName}</h3>
                             <h3 className="font-weight-semi-bold mb-4">
-                                    <span
-                                        style={{color: "red"}}>{new Intl.NumberFormat().format(product.price)} VND</span>
+                                <span style={{color: "red"}}>
+                                    {new Intl.NumberFormat().format(product.price)} VND
+                                </span>
                             </h3>
-                            <p className="mb-4">
-                                Độ phân giải: {product.screenResolution}
-                            </p>
-                            <p className="mb-4">
-                                Kích thước màn hình: {product.screenSize}
-                            </p>
-                            <p className="mb-4">
-                                Ram: {product.ram}
-                            </p>
-                            <p className="mb-4">
-                                Bộ nhớ trong: {product.internalMemory}
-                            </p>
-                            <p className="mb-4">
-                                số lượng trong kho: {product.quantity}
-                            </p>
-                            <div className="d-flex align-items-center mb-4 pt-2">
-                                <div className="input-group quantity mr-3" style={{width: 130}}>
-                                    <div className="input-group-btn">
-                                        <Link to="" className="a-cart" style={{fontSize: 40}}
-                                              onClick={() => handleDecrease()}
-                                        >-</Link>
-                                        <input type="text" style={{fontSize: 40, width: 40, height: 40}}
-                                               onChange={(event) => {
-                                                   handleInputChange(event)
-                                               }} value={quantity}/>
-                                        <Link to="" className="a-cart" style={{fontSize: 40}}
-                                              onClick={() => handleIncrease()}>+</Link>
-                                    </div>
+                            <table className=" table table-secondary">
+                                <thead>
+                                <tr>
+                                    <td>Độ phân giải</td>
+                                    <td>
+                                        {product.screenResolution !== null ? product.screenResolution : '-'}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Kích thước màn</td>
+                                    <td>{product.screenSize !== null ? product.screenSize : '-'}</td>
+                                </tr>
+                                <tr>
+                                    <td>Ram</td>
+                                    <td>{product.ram !== null ? product.ram : '-'}</td>
+                                </tr>
+                                <tr>
+                                    <td>Bộ nhớ trong</td>
+                                    <td>{product.internalMemory !== null ? product.internalMemory : '-'}</td>
+                                </tr>
+                                </thead>
+                            </table>
+                            <div className="d-flex mb-4 pt-2">
+                                <div className="d-flex" style={{marginTop: "21px"}}>
+                                    <p onClick={() => handleDecrease()}>
+                                        <i className="bi bi-dash-square fs-2"/>
+                                    </p>
+                                    <input type="text" style={{
+                                        width: "44px",
+                                        height: "32px",
+                                        marginTop: "9px",
+                                        textAlign: "center"
+                                    }}
+                                           onChange={(event) => handleInputChange(event)}
+                                           value={quantity}/>
+                                    <p onClick={() => handleIncrease()} style={{padding: "inherit"}}>
+                                        <i className="bi bi-plus-square fs-2"/>
+                                    </p>
                                 </div>
-                                <div className="btn btn-primary px-3">
+                                <div className="px-3 mb-4 pt-2">
                                     {sessionStorage.getItem("TOKEN") && (
                                         <div className="row" style={{marginTop: 20}}>
-                                            <div className="col">
-                                                <button className="button-add"
-                                                        onClick={() => handleAddCart(product?.productId)}>THÊM VÀO
-                                                    GIỎ HÀNG
-                                                </button>
+                                            <div>
+                                                <div className="btn btn-warning"
+                                                     onClick={() => handleAddCart(product?.productId)}>
+                                                    THÊM VÀO GIỎ HÀNG
+                                                </div>
                                             </div>
                                         </div>
                                     )}
                                     {!sessionStorage.getItem("TOKEN") && (
                                         <div className="row" style={{marginTop: 20}}>
-                                            <div className="col">
+                                            <div>
                                                 <Link to="/login">
-                                                    <button className="button-add">THÊM VÀO GIỎ HÀNG</button>
+                                                    <div className="btn btn-warning">
+                                                        THÊM VÀO GIỎ HÀNG
+                                                    </div>
                                                 </Link>
                                             </div>
                                         </div>
@@ -171,15 +194,9 @@ export function ProductDetail() {
                     <div className="bg-light p-30">
                         <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3">
 
-                            <Tab eventKey="home" title="Mô tả">
-                                <h4 className="mb-3">Mô tả sản phẩm</h4>
-                                <p>
-                                    {product.status}
-                                </p>
-                            </Tab>
-                            <Tab eventKey="profile" title="Chi tiết">
+                            <Tab eventKey="home" title="Chi Tiết">
                                 <h4 className="mb-3">Chi tiết sản phẩm</h4>
-                                <table className="table table-striped">
+                                <table className="table table-striped" style={{textAlign:"center"}}>
                                     <thead>
                                     <tr>
                                         <th>Độ phân giải</th>
@@ -189,14 +206,21 @@ export function ProductDetail() {
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>{product.screenResolution}</td>
-                                        <td>{product.screenSize}</td>
-                                        <td>{product.ram}</td>
-                                        <td>{product.internalMemory}</td>
+                                    <tr >
+                                        <td>{product.screenResolution !== null ? product.screenResolution : '-'}</td>
+                                        <td>{product.screenSize !== null ? product.screenSize : '-'}</td>
+                                        <td>{product.ram !== null ? product.ram : '-'}</td>
+                                        <td>{product.internalMemory !== null ? product.internalMemory : '-'}</td>
                                     </tr>
                                     </tbody>
                                 </table>
+
+                            </Tab>
+                            <Tab eventKey="profile" title="Mô Tả">
+                                <h4 className="mb-3">Chi Tiết</h4>
+                                <p>
+                                    {product.status}
+                                </p>
                             </Tab>
                         </Tabs>
                     </div>

@@ -12,6 +12,9 @@ import {ProductDVD} from "./components/product/ProductDVD";
 import {ProductCamera} from "./components/product/ProductCamera";
 import {ProductSensor} from "./components/product/ProductSensor";
 import {QuantityProvider} from "./components/ValueIconCartContext";
+import {HistoryCart} from "./components/history/HistoryCart";
+import {Information} from "./components/information/Information";
+import {PaymentSuccess} from "./components/PaymentSuccess";
 
 function App() {
     return (
@@ -27,6 +30,9 @@ function App() {
                     <Route path="/product-dvd" element={<ProductDVD/>}></Route>
                     <Route path="/product-camera" element={<ProductCamera/>}></Route>
                     <Route path="/product-sensor" element={<ProductSensor/>}></Route>
+                    <Route path={"/user/history"} element={<HistoryCart/>}/>
+                    <Route path={"/user/information"} element={<Information/>}/>
+                    <Route path={"/order-detail/:totalPrice"} element={<PaymentSuccess/>}/>
                 </Routes>
                 <Footer/>
             </QuantityProvider>

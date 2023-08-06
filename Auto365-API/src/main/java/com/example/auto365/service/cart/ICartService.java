@@ -1,7 +1,10 @@
 package com.example.auto365.service.cart;
 
+import com.example.auto365.dto.RequestPayment;
+import com.example.auto365.dto.ResponsePayment;
 import com.example.auto365.model.Cart;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public interface ICartService {
@@ -14,4 +17,5 @@ public interface ICartService {
     void delete(Cart cart);
     Cart findById(int id);
     List<Cart> findCartByCustomerId(int id);
+    ResponsePayment payment(RequestPayment requestPayment) throws UnsupportedEncodingException;
 }

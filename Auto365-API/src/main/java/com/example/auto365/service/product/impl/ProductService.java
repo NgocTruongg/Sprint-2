@@ -4,7 +4,7 @@ import com.example.auto365.dto.ProductDTO;
 import com.example.auto365.model.Product;
 import com.example.auto365.model.ProductType;
 import com.example.auto365.repository.IProductRepository;
-import com.example.auto365.repository.IProductsRepository;
+import com.example.auto365.repository.IProductTypeRepository;
 import com.example.auto365.service.product.IProductService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +20,21 @@ public class ProductService implements IProductService {
 
 
     @Autowired
-    private IProductRepository productRepository;
+    private IProductRepository iProductRepository;
+    @Autowired
+    private IProductTypeRepository iProductTypeRepository;
 
 
     @Override
     public Page<Product> findAll(Pageable pageable) {
-        return productRepository.findAll(pageable);
+        return iProductRepository.findAll(pageable);
     }
 
     @Override
     public void addProduct(ProductDTO productDTO) {
         Product product = new Product();
         BeanUtils.copyProperties(productDTO, product);
-        productRepository.saveProduct(
+        iProductRepository.saveProduct(
                 product.getImage(),
                 product.getPrice(),
                 product.getProductName(),
@@ -44,21 +46,35 @@ public class ProductService implements IProductService {
 
     @Override
     public Product findById(int id) {
-        return productRepository.findProductByProductId(id);
+        return iProductRepository.findProductByProductId(id);
     }
 
     @Override
     public List<Product> findNewProduct() {
-        return productRepository.findNewProduct();
+        return iProductRepository.findNewProduct();
     }
-
-    @Override
-    public List<Product> getProductByTypeProduct(Integer type) {
-        return productRepository.getProductByType(type);
-    }
-
     @Override
     public void save(Product product) {
-        productRepository.save(product);
+        iProductRepository.save(product);
     }
+    @Override
+    public List<Product> getAllProduct() {
+        return iProductRepository.findAll();
+    }
+
+    @Override
+    public List<ProductType> getAllTypeProduct() {
+        return iProductTypeRepository.findAll();
+    }
+
+    @Override
+    public List<Product> getProductByTypeProducts(Integer type) {
+        return iProductRepository.getProductByType(type);
+    }
+
+    @Override
+    public List<Product> getProductByNameProduct(String productName) {
+        return iProductRepository.getProductByName(productName);
+    }
+
 }

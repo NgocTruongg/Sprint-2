@@ -10,8 +10,8 @@ import Swal from "sweetalert2";
 export function ProductCamera() {
 
     const [typeProducts, setTypeProducts] = useState(null);
-    const token = localStorage.getItem("TOKEN");
-    const username = localStorage.getItem("USERNAME");
+    const token = sessionStorage.getItem("TOKEN");
+    const username = sessionStorage.getItem("USERNAME");
     const [quantity, setQuantity] = useState(0);
     const [itemsToShow, setItemsToShow] = useState(8); // Số sản phẩm hiển thị ban đầu
     const [itemsPerLoad, setItemsPerLoad] = useState(4);

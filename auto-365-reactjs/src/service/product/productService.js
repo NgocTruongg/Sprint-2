@@ -1,19 +1,17 @@
 import axios from 'axios'
 
 
-export const findAll = async (request) =>{
+export const findAll = async () =>{
     try {
-        const result = (await axios.get("http://localhost:8080/api/public/product/list?page="
-            + request.page +
-            "&name=" + request.name)).data;
-        return result;
+        const result = await axios.get("http://localhost:8080/api/public/product");
+        return result.data;
     }catch (e) {
         console.log(e)
     }
 }
 
 export const getAllProductByType = async (type) => {
-    const res = await axios.get(`http://localhost:8080/api/public/product-by-type/${type}`)
+    const res = await axios.get(`http://localhost:8080/api/public/product/product-by-type/${type}`)
     return res.data;
 }
 
@@ -34,6 +32,6 @@ export const findProductById = async (id) => {
     }
 }
 export const getAllTypeProduct = async () => {
-    const res = await axios.get("http://localhost:8080/api/public/type-product")
+    const res = await axios.get("http://localhost:8080/api/public/product/type-product")
     return res.data;
 }

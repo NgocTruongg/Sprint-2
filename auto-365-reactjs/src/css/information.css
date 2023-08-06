@@ -1,0 +1,30 @@
+.col-4.category-info {
+  background: #f2f2f2; /* Màu nền của phần tử */
+  border: 1px solid #ccc; /* Độ dày và màu của viền */
+  padding: 10px; /* Khoảng cách lề bên trong của phần tử */
+}
+
+.col-4.category-info h2 {
+  margin-bottom: 10px; /* Khoảng cách dưới của tiêu đề "Danh mục" */
+}
+
+.col-4.category-info li {
+  list-style-type: none; /* Ẩn đi ký tự đánh dấu cho mỗi mục danh sách */
+  margin-bottom: 5px; /* Khoảng cách giữa các mục danh sách */
+}
+
+.col-4.category-info li a {
+  text-decoration: none; /* Loại bỏ gạch chân cho các liên kết */
+  color: black; /* Màu chữ cho các liên kết */
+  display: block; /* Chuyển các liên kết thành khối, để có thể bao gồm khoảng cách xung quanh */
+}
+
+.col-4.category-info li a i {
+  margin-right: 5px; /* Khoảng cách giữa biểu tượng và văn bản của mỗi liên kết */
+}
+
+.information {
+  background: #f2f2f2; /* Màu nền của phần tử */
+  border: 1px solid #ccc; /* Độ dày và màu của viền */
+  padding: 10px; /* Khoảng cách lề bên trong của phần tử */
+}

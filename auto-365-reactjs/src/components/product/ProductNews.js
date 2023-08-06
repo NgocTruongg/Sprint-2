@@ -7,8 +7,8 @@ import {ValueIconCartContext} from "../ValueIconCartContext";
 
 
 export function ProductNews() {
-    const token = localStorage.getItem("TOKEN");
-    const username = localStorage.getItem("USERNAME");
+    const token = sessionStorage.getItem("TOKEN");
+    const username = sessionStorage.getItem("USERNAME");
     const [quantity, setQuantity] = useState(1);
     const [products, setProducts] = useState([]);
     const {iconQuantity, setIconQuantity} = useContext(ValueIconCartContext);
@@ -20,35 +20,49 @@ export function ProductNews() {
         })()
     }, []);
 
-
-    useEffect(() => {
-    }, []);
     const AddCart = async (id) => {
         const cart = {
             quantity: 1,
             status: true,
             product: ""
         }
-        try {
-            await addCart({...cart, quantity: quantity, product: id}, token);
-            setIconQuantity(iconQuantity + 1)
+        if (token) {
+            try {
+                await addCart({...cart, quantity: quantity, product: id}, token);
+                setIconQuantity(iconQuantity + 1)
+                Swal.fire({
+                    title: 'Thông báo',
+                    text: 'Thêm thành công sản phẩm vào giỏ hàng!',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                })
+            } catch (err) {
+                console.log(err)
+            }
+        } else {
             Swal.fire({
-                title: 'Thông báo',
-                text: 'Thêm thành công sản phẩm vào giỏ hàng!',
-                icon: 'success',
+                text: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!',
+                icon: 'error',
                 confirmButtonText: 'OK'
-            })
-        } catch (err) {
-            console.log(err)
+            });
         }
-    };
+    }
 
     return (
         <>
             <div className="container-fluid pt-5 pb-3">
+                <div>
+                    {sessionStorage.getItem("ROLES") === "ADMIN" && (
+                        <button className="btn btn-outline-dark">
+                            Thêm mới sản phẩm
+                        </button>
+
+                    )}
+                </div>
                 <h2 className="section-title position-relative text-uppercase mx-xl-5 mb-4"><span
-                    className="title-product">Sản Phẩm mới</span>
+                    className="title-product">Sản Phẩm Mới</span>
                 </h2>
+
                 <div className="row px-xl-5">
                     {products.map((product, index) => (
                         <div className="col-lg-3 col-md-4 col-sm-6 pb-1" key={index}>
@@ -58,9 +72,11 @@ export function ProductNews() {
                                         <img className="img-fluid w-100" src={product.image} alt=""/>
                                     </Link>
                                     <div className="product-action">
-                                        <Link className="btn btn-warning mr-2">
-                                            <i className="bi bi-cart3" onClick={() => AddCart(product?.productId)}/>
-                                        </Link>
+                                            <Link className="btn btn-warning mr-2"
+                                                  onClick={() => AddCart(product?.productId)}>
+                                                Thêm Vào Giỏ Hàng
+                                                <i className="bi bi-cart3"/>
+                                            </Link>
                                     </div>
                                 </div>
                                 <div style={{textAlign: "center"}}>
@@ -82,6 +98,16 @@ export function ProductNews() {
                                             {product.quantity}
                                         </p>
                                     </div>
+                                    {sessionStorage.getItem("ROLES") === "ADMIN" && (
+                                        <div>
+                                            <button className="btn btn-secondary">
+                                                Sửa
+                                            </button>
+                                            <button className="btn btn-dark" style={{marginLeft: "20px"}}>
+                                                Xóa
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

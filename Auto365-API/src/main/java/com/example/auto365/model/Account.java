@@ -30,18 +30,6 @@ public class Account {
 
     public Account() {
     }
-
-    public Account(Integer accountId, String accountName,
-                   String accountPassword, String resetPassword,
-                   Boolean isDelete, Set<Roles> roles) {
-        this.accountId = accountId;
-        this.accountName = accountName;
-        this.accountPassword = accountPassword;
-        this.resetPassword = resetPassword;
-        this.isDelete = isDelete;
-        this.roles = roles;
-    }
-
     public Integer getAccountId() {
         return accountId;
     }

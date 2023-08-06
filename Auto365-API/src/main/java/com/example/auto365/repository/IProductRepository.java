@@ -14,7 +14,7 @@ import java.util.List;
 
 @Repository
 public interface IProductRepository extends JpaRepository<Product, Integer> {
-    
+
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO product(image, price, product_name,quantity, status, product_type_id)" +
@@ -28,17 +28,19 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
             @Param("product_type_id") Integer productTypeId
     );
 
-//    @Transactional
-//    @Query(value = "SELECT * FROM product \n" +
-//            "WHERE (:productName IS NULL OR product.product_name LIKE CONCAT('%', :productName, '%'))\n" +
-//            "AND (:productTypeId = 0 OR product.product_type_id = :productTypeId)", nativeQuery = true)
-//    Page<Product> findProductByProductNameAndAndProductTypeContaining(@Param("productName") String name, @Param("productTypeId") Integer productTypeId, Pageable pageable);
     Product findProductByProductId(int id);
 
     @Query(value = "SELECT * FROM product ORDER BY product_id DESC  LIMIT 8", nativeQuery = true)
     List<Product> findNewProduct();
 
-
-    @Query(value = "select * from product where product_type_id = :productTypeId" , nativeQuery = true)
+    @Query(value = "select * from product where product_type_id = :productTypeId", nativeQuery = true)
     List<Product> getProductByType(@Param("productTypeId") Integer type);
+
+    @Query(value = "select * from product join product_type pt on pt.product_type_id = product.product_type_id where product_type_name like CONCAT('%',?1, '%')", nativeQuery = true)
+    List<Product> getProductByName(String productName);
+
+    @Modifying
+    @Query(value = "update product set amount = :amount where product_id = :productId", nativeQuery = true)
+    void setAmount(@Param("amount") Integer amount,
+                   @Param("productId") Integer productId);
 }

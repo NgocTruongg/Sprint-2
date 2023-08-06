@@ -1,12 +1,15 @@
 import React, {useContext, useEffect, useState} from "react";
 import {ValueIconCartContext} from "../ValueIconCartContext";
-import {deleteCart, findCartByCustomerId, updateCart} from "../../service/cart/CartService";
+import {deleteCart, findCartByCustomerId, payment, updateCart} from "../../service/cart/CartService";
 import {Link} from "react-router-dom";
 import Swal from "sweetalert2";
 import {findCustomer} from "../../service/customer/CustomerService";
+import {PayPalButtons, PayPalScriptProvider} from "@paypal/react-paypal-js";
+import {useNavigate} from "react-router";
 
 
 export function Cart() {
+    const navigate = useNavigate();
     const [carts, setCarts] = useState([]);
     const token = sessionStorage.getItem("TOKEN");
     const username = sessionStorage.getItem("USERNAME");
@@ -46,9 +49,18 @@ export function Cart() {
         return total + cart?.product?.price * cart?.quantity;
     }, 0);
 
-    const totalQuantity = carts.reduce((cart) => {
-        return cart?.quantity;
-    }, 0);
+    useEffect(() => {
+        // Lưu giữ liệu vào sessionStorage mỗi khi cartItems thay đổi
+        sessionStorage.setItem('store', JSON.stringify(carts));
+    }, [carts]);
+
+    useEffect(() => {
+        const storedItems = JSON.parse(sessionStorage.getItem('store'));
+        if (storedItems) {
+            setCarts(storedItems);
+        }
+    },[])
+
 
     const decreaseQuantity = async (cartIndex) => { // giảm số lượng
         const updatedCarts = [...carts];
@@ -114,9 +126,33 @@ export function Cart() {
         }
     }
 
+    //Thanh toán bằng payment
+
+    const handlePayment = async (totalPrice) => {
+        try {
+            await payment({totalPrice}, token);
+            navigate(`/order-detail/${totalPrice}`)
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    // const handleOnclickPayment = async (totalPrice) => {
+    //     const payment = {
+    //         totalPrice: totalPrice
+    //     }
+    //     try {
+    //         const result = await payments(payment, token);
+    //         sessionStorage.setItem("totalPrice" , totalPrice)
+    //         window.location.href = result.url;
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // }
+
     return (
         <>
-            <div className="container-fluid" style={{marginTop:"60px"}}>
+            <div className="container-fluid" style={{marginTop: "60px"}}>
                 <div className="row px-xl-5">
                     <div className="col-12">
                         <nav className="breadcrumb bg-light mb-30">
@@ -126,7 +162,7 @@ export function Cart() {
                             <span className="breadcrumb-item active">Giỏ Hàng</span>
                         </nav>
                     </div>
-                    <div className="col-lg-8 table-responsive mb-4" style={{boxShadow:"0px 0px 14px black"}}>
+                    <div className="col-lg-8 table-responsive mb-4" style={{boxShadow: "0px 0px 14px black"}}>
                         {carts.length === 0 ? (
                             <div className="row border-top border-bottom">
                                 <div className="row main">
@@ -169,7 +205,7 @@ export function Cart() {
                                         </td>
 
                                         <td className="text-center">
-                                            <Link onClick={() => removeCart(cart?.idCart)} >
+                                            <Link onClick={() => removeCart(cart?.idCart)}>
                                                 <i className="bi bi-x-square"/>
                                             </Link>
                                         </td>
@@ -180,45 +216,83 @@ export function Cart() {
                             </table>
                         )}
                     </div>
-                    <div className="col-lg-3" style={{height:"50%", boxShadow:"0px 0px 14px black", marginLeft:"auto"}}>
-                        <h5 style={{textAlign:"center"}} className="mt-3">
-                           Giỏ Hàng
-                        </h5>
-                        <div className="p-30 mb-5">
-                            <div className="border-bottom pb-2">
-                                <div className="d-flex justify-content-between mb-3">
-                                    <h6>Thành tiền:</h6>
-                                    <h6>
-                                        {new Intl.NumberFormat().format(totalPrice)} VND
-                                    </h6>
+                    {carts.length === 0 ? (
+                        <div className="col-lg-3"
+                             style={{height: "50%", marginLeft: "auto"}}>
+                            <h5 style={{textAlign: "center"}} className="mt-3">
+                                Giỏ hàng bạn chưa có gì
+                            </h5>
+                            <button className="btn btn-secondary mt-3" style={{width: "100%"}}>
+                                <Link to="/" style={{textDecoration: "none", color: "white"}}>
+                                    <i className="bi bi-caret-left-square"/> Mua thêm sản phẩm
+                                </Link>
+                            </button>
+                        </div>
+
+                    ) : (
+                        <div className="col-lg-3"
+                             style={{height: "50%", boxShadow: "0px 0px 14px black", marginLeft: "auto"}}>
+                            <h5 style={{textAlign: "center", marginBottom:"15px"}} className="mt-3">
+                                Giỏ Hàng
+                            </h5>
+                            <div className="p-30 mb-5">
+                                <div className="border-bottom pb-2">
+                                    <div className="d-flex justify-content-between mb-3">
+                                        <h6>Thành tiền:</h6>
+                                        <h6>
+                                            {new Intl.NumberFormat().format(totalPrice)} VND
+                                        </h6>
+                                    </div>
+                                    <div className="d-flex justify-content-between mb-3">
+                                        <h6 className="font-weight-medium">Tiền ship:</h6>
+                                        <h6>0 VND</h6>
+                                    </div>
+                                    <div className="d-flex justify-content-between mb-3 ">
+                                        <h6 className="font-weight-medium">Giảm giá:</h6>
+                                        <h6>0 VND</h6>
+                                    </div>
                                 </div>
-                                <div className="d-flex justify-content-between mb-3">
-                                    <h6 className="font-weight-medium">Tiền ship:</h6>
-                                    <h6>0 VND</h6>
+                                <div className="pt-2">
+                                    <div className="d-flex justify-content-between mt-2">
+                                        <h5>Tổng số tiền: </h5>
+                                        <h5>
+                                            {new Intl.NumberFormat().format(totalPrice)} VND
+                                        </h5>
+                                    </div>
+                                    <PayPalScriptProvider
+                                        options={{"client-id": 'AbEGfDFZsTMuitYfPAWUU_vsWHszMmW0XyEvuvMbKay_0sr81ieansnttsqN0FMUBnaJ5ar3IMRUDv7A'}}
+                                    >
+                                        <PayPalButtons
+                                            createOrder={(data, actions) => {
+                                                return actions.order.create({
+                                                    purchase_units: [
+                                                        {
+                                                            amount: {
+                                                                value: parseFloat((totalPrice / 24000).toString().slice(0, 4)),
+                                                                currency_code: 'USD'
+                                                            },
+                                                        },
+                                                    ],
+                                                });
+                                            }}
+                                            onApprove={(data, actions) => {
+                                                handlePayment(totalPrice)
+                                            }}
+                                        />
+                                    </PayPalScriptProvider>
+
+                                    {/*<button className="btn btn-warning mt-3" style={{width: "100%"}} onClick={() => handleOnclickPayment(totalPrice)}>*/}
+                                    {/*    Thanh toán <i className="bi bi-wallet2"/>*/}
+                                    {/*</button>*/}
+                                    <button className="btn btn-secondary mt-3" style={{width: "100%"}}>
+                                        <Link to="/" style={{textDecoration: "none", color: "white"}}>
+                                            <i className="bi bi-caret-left-square"/> Mua thêm sản phẩm
+                                        </Link>
+                                    </button>
                                 </div>
-                                <div className="d-flex justify-content-between mb-3 ">
-                                    <h6 className="font-weight-medium">Giảm giá:</h6>
-                                    <h6>0 VND</h6>
-                                </div>
-                            </div>
-                            <div className="pt-2">
-                                <div className="d-flex justify-content-between mt-2">
-                                    <h5>Tổng số tiền: </h5>
-                                    <h5>
-                                        {new Intl.NumberFormat().format(totalPrice)} VND
-                                    </h5>
-                                </div>
-                                <button className="btn btn-warning mt-3" style={{width:"100%"}}>
-                                    Thanh toán <i className="bi bi-wallet2"/>
-                                </button>
-                                <button className="btn btn-secondary mt-3" style={{width:"100%"}}>
-                                    <Link to="/" style={{textDecoration:"none", color:"white"}}>
-                                        <i className="bi bi-caret-left-square"/>   Mua thêm sản phẩm
-                                    </Link>
-                                </button>
                             </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
         </>

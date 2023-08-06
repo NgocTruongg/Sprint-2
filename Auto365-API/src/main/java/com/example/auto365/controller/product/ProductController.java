@@ -2,12 +2,9 @@ package com.example.auto365.controller.product;
 
 import com.example.auto365.dto.ProductDTO;
 import com.example.auto365.model.Product;
+import com.example.auto365.model.ProductType;
 import com.example.auto365.service.product.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -35,15 +32,6 @@ public class ProductController {
         return new ResponseEntity<>(newProductList, HttpStatus.OK);
     }
 
-    @GetMapping("/list")
-    public ResponseEntity<Page<Product>> getAllProduct(@PageableDefault(size = 8) Pageable pageable,
-                                                         @RequestParam(value = "page", defaultValue = "0")
-                                                         int page) {
-        pageable = PageRequest.of(page, 8);
-        Page<Product> product = productService.findAll(pageable);
-        return new ResponseEntity<>(product, HttpStatus.OK);
-    }
-
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create")
@@ -63,9 +51,27 @@ public class ProductController {
     }
 
 
-    @GetMapping("/productByType/{type}")
+    @GetMapping("")
+    public ResponseEntity<List<Product>> displayMenu() {
+        List<Product> products = productService.getAllProduct();
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/type-product")
+    public ResponseEntity<List<ProductType>> displayTypeMenu() {
+        List<ProductType> productsType = productService.getAllTypeProduct();
+        return new ResponseEntity<>(productsType, HttpStatus.OK);
+    }
+
+    @GetMapping("/product-by-type/{type}")
     public ResponseEntity<List<Product>> displayProductByType(@PathVariable Integer type) {
-        List<Product> products = productService.getProductByTypeProduct(type);
+        List<Product> products = productService.getProductByTypeProducts(type);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/product-by-name")
+    public ResponseEntity<List<Product>> displayProductByName(@RequestParam(name = "productName") String productName) {
+        List<Product> products = productService.getProductByNameProduct(productName);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 }
